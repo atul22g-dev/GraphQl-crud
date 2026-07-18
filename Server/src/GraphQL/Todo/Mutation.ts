@@ -1,28 +1,23 @@
-import TodoService, { CreateTodoPayload, TodoPayload, updateTodoPayload } from "../../services/todo";
+import TodoService, { CreateTodoPayload, UpdateTodoPayload } from "../../services/todo";
 
 const createTodo = async (_: any, payload: CreateTodoPayload) => {
-    const res = await TodoService.createTodo(payload);
-    return res;
+    return TodoService.create(payload);
 }
 
 const allTodo = async () => {
-    const res = await TodoService.allTodo();
-    return res;
+    return TodoService.all();
 }
 
-const deleteTodo = async (_: any, payload: TodoPayload) => {
-    const res = await TodoService.deleteTodo(payload);
-    return res;
+const deleteTodo = async (_: any, payload: { id: number }) => {
+    return TodoService.delete(payload);
 }
 
-const findTodo = async (_: any, payload: TodoPayload) => {
-    const res = await TodoService.findTodo(payload);
-    return res;
+const findTodo = async (_: any, payload: { id: number }) => {
+    return TodoService.find(payload);
 }
 
-const updateTodo = async (_: any, payload: updateTodoPayload) => {
-    const res = await TodoService.updateTodo(payload);
-    return res;
+const updateTodo = async (_: any, payload: UpdateTodoPayload) => {
+    return TodoService.update(payload);
 }
 
 export { createTodo, allTodo, deleteTodo, findTodo, updateTodo };

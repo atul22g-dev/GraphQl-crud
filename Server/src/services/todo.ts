@@ -1,14 +1,15 @@
-import { PrismaClient } from "@prisma/client";
+import { PrismaClient } from '@prisma/client';
 
 export interface CreateTodoPayload {
     Title: string;
     Description: string;
 }
-export interface TodoPayload {
+
+interface TodoIdPayload {
     id: number;
 }
 
-export interface updateTodoPayload {
+export interface UpdateTodoPayload {
     id: number;
     Title: string;
     Description: string;
@@ -17,59 +18,28 @@ export interface updateTodoPayload {
 const prisma = new PrismaClient();
 
 class TodoService {
-    // Create a new todo
-    public static async createTodo(payload: CreateTodoPayload) {
-        const { Title, Description } = payload;
-
-        await prisma.todo.create({
-            data: {
-                Title,
-                Description
-            },
-        });
-        return "Todo Created Successfully";
+    static async create(payload: CreateTodoPayload) {
+        await prisma.todo.create({ data: payload });
+        return 'Todo Created Successfully';
     }
 
-    // Get all todos
-    public static async allTodo() {
+    static async all() {
         return prisma.todo.findMany();
     }
 
-    // Find a todo
-    public static async findTodo(payload: TodoPayload) {
-        const { id } = payload;
-        return prisma.todo.findUnique({
-            where: {
-                id: id,
-            },
-        });
+    static async find(payload: TodoIdPayload) {
+        return prisma.todo.findUnique({ where: { id: payload.id } });
     }
 
-    // Update a todo
-    public static async updateTodo(payload: updateTodoPayload) {
-        const { id, Title, Description } = payload;
-
-        await prisma.todo.update({
-            where: {
-                id: id,
-            },
-            data: {
-                Title: Title,
-                Description: Description
-            },
-        });
-        return "Todo Updated Successfully";
+    static async update(payload: UpdateTodoPayload) {
+        const { id, ...data } = payload;
+        await prisma.todo.update({ where: { id }, data });
+        return 'Todo Updated Successfully';
     }
 
-    // delete a todos
-    public static async deleteTodo(payload: TodoPayload) {
-        const { id } = payload;
-        await prisma.todo.delete({
-            where: {
-                id: id,
-            },
-        });
-        return "Todo Deleted Successfully";
+    static async delete(payload: TodoIdPayload) {
+        await prisma.todo.delete({ where: { id: payload.id } });
+        return 'Todo Deleted Successfully';
     }
 }
 
