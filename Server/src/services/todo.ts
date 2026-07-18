@@ -15,7 +15,15 @@ export interface UpdateTodoPayload {
     Description: string;
 }
 
-const prisma = new PrismaClient();
+// Singleton PrismaClient instance for serverless (prevents connection exhaustion on warm starts)
+const globalForPrisma = globalThis as unknown as {
+    prisma: PrismaClient | undefined;
+};
+
+const prisma = globalForPrisma.prisma ?? new PrismaClient();
+
+// Always cache on globalThis so Vercel warm starts reuse the same instance
+globalForPrisma.prisma = prisma;
 
 class TodoService {
     static async create(payload: CreateTodoPayload) {

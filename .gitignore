@@ -137,3 +137,5 @@ database
 .flaskenv*
 !.env.project
 !.env.vault
+.vercel
+.freebuff
