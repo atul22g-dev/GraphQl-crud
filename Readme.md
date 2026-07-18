@@ -79,7 +79,7 @@ cd GraphQl-crud
 Create a `.env` file in the `Server/` directory:
 
 ```env
-DATABASE_URL="postgresql://user:password@ep-xxx.us-east-2.aws.neon.tech/neondb?sslmode=require"
+GraphQl_CRUD_POSTGRES_PRISMA_URL="postgresql://user:password@ep-xxx.us-east-2.aws.neon.tech/neondb?sslmode=require"
 ```
 
 > Replace with your actual Neon connection string from step 2.
@@ -387,7 +387,7 @@ npx prisma migrate dev --name <migration_name>
 | Issue                     | Solution                                                        |
 | ------------------------- | --------------------------------------------------------------- |
 | Prisma client not found   | Run `npx prisma generate` in `Server/`                          |
-| Neon connection fails     | Check your `.env` `DATABASE_URL` includes `?sslmode=require`    |
+| Neon connection fails     | Check your `.env` `GraphQl_CRUD_POSTGRES_PRISMA_URL` includes `?sslmode=require`    |
 | CORS errors               | The server allows `*` origin — check your fetch URL is correct  |
 | Migration fails           | Verify Neon is running (check [console.neon.tech](https://console.neon.tech)) |
 
