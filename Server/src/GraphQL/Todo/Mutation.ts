@@ -20,4 +20,8 @@ const updateTodo = async (_: any, payload: UpdateTodoPayload) => {
     return TodoService.update(payload);
 }
 
-export { createTodo, allTodo, deleteTodo, findTodo, updateTodo };
+const dbHeartbeat = async () => {
+    return TodoService.dbHeartbeat();
+}
+
+export { createTodo, allTodo, deleteTodo, findTodo, updateTodo, dbHeartbeat };

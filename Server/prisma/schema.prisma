@@ -17,3 +17,8 @@ model Todo {
 
   @@map("todos")
 }
+
+model Heartbeat {
+  id      String   @id
+  lastRun DateTime @updatedAt
+}

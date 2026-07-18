@@ -4,9 +4,15 @@ const TypeDefs = `
         Title: String
         Description: String
     }
+    type DbHeartbeatResult {
+        ok: Boolean!
+        timestamp: String!
+        message: String!
+    }
     type Query {
         hello: String
         allTodo: [Todo]
+        dbHeartbeat: DbHeartbeatResult!
     }
     type Mutation {
         createTodo(Title: String, Description: String): String!

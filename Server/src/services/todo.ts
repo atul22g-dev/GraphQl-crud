@@ -20,12 +20,30 @@ const globalForPrisma = globalThis as unknown as {
     prisma: PrismaClient | undefined;
 };
 
-const prisma = globalForPrisma.prisma ?? new PrismaClient();
+export const prisma = globalForPrisma.prisma ?? new PrismaClient();
 
 // Always cache on globalThis so Vercel warm starts reuse the same instance
 globalForPrisma.prisma = prisma;
 
 class TodoService {
+    static async dbHeartbeat() {
+        try {
+            // Run a lightweight query to verify DB connectivity
+            await prisma.$queryRaw`SELECT 1`;
+            return {
+                ok: true,
+                timestamp: new Date().toISOString(),
+                message: 'Database is connected and healthy',
+            };
+        } catch (error: any) {
+            return {
+                ok: false,
+                timestamp: new Date().toISOString(),
+                message: `Database connection failed: ${error.message}`,
+            };
+        }
+    }
+
     static async create(payload: CreateTodoPayload) {
         await prisma.todo.create({ data: payload });
         return 'Todo Created Successfully';
